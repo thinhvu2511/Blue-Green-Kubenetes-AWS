@@ -24,7 +24,7 @@ commands:
                     aws cloudformation delete-stack --stack-name "helloworld-${CIRCLE_WORKFLOW_ID:0:7}"
 
 jobs:
-    run-server:
+    build-server:
         docker:
             - image: cimg/base:2021.04
         steps:
@@ -39,3 +39,8 @@ jobs:
                     --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:7} \
                     --tags project=helloworld-${CIRCLE_WORKFLOW_ID:0:7}
             - destroy-environment
+
+workflows:
+    default:
+        jobs:
+            - build-server
