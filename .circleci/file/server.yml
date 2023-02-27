@@ -1,0 +1,31 @@
+Description: >
+  Hello World server stack.
+
+Parameters:
+  ID:
+    Description: Unique identifier.
+    Type: String
+
+Resources:
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub HelloWorld-${ID}
+      GroupDescription:
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      SecurityGroups:
+        - Ref: InstanceSecurityGroup
+      KeyName: helloworld
+      ImageId: ami-068663a3c619dd892 
+      Tags:
+        - Key: Name
+          Value: !Sub HelloWorld-${ID}

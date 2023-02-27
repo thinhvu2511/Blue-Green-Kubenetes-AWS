@@ -1,0 +1,27 @@
+version: 2.1
+
+command:
+    destroy-environment:
+        description: Destroy stack when on-fail
+        steps:
+        - run:
+            name: Destroying environment
+            when: on_fail
+            command: |
+                aws cloudformation delete-stack --stack-name "helloworld-${CIRCLE_WORKFLOW_ID:0:7}"
+
+jobs:
+    build:
+        docker:
+            - image: cimg/base:2021.04
+        step:
+            - checkout
+            - run:
+                name: Build Hello World server
+                command: |
+                    aws cloudformation deploy \
+                    --template-file .circleci/files/server.yml \
+                    --stack-name helloworld-${CIRCLE_WORKFLOW_ID:0:7} \
+                    --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:7} \
+                    --tags project=helloworld-${CIRCLE_WORKFLOW_ID:0:7}
+            
