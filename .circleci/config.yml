@@ -1,6 +1,19 @@
 version: 2.1
 
-commands: 
+commands:
+    dependencies:
+        steps:
+            - run:
+                name: Installing necessary packages
+                command: |
+                    sudo apt update && sudo apt install -y tar gzip curl nginx
+            - run:
+                name: Installing aws-cli
+                command: |
+                      curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+                      unzip awscliv2.zip
+                      sudo ./aws/install
+
     destroy-environment:
         description: Destroy stack when on-fail
         steps:
@@ -11,11 +24,12 @@ commands:
                     aws cloudformation delete-stack --stack-name "helloworld-${CIRCLE_WORKFLOW_ID:0:7}"
 
 jobs:
-    build:
+    run-server:
         docker:
             - image: cimg/base:2021.04
         steps:
             - checkout
+            - dependencies
             - run:
                 name: Build Hello World server
                 command: |
@@ -24,4 +38,4 @@ jobs:
                     --stack-name helloworld-${CIRCLE_WORKFLOW_ID:0:7} \
                     --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:7} \
                     --tags project=helloworld-${CIRCLE_WORKFLOW_ID:0:7}
-            
+            - destroy-environment
