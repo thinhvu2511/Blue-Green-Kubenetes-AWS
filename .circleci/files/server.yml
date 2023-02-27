@@ -11,7 +11,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupName: !Sub HelloWorld-${ID}
-      GroupDescription:
+      GroupDescription: Allow port 22
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 22
