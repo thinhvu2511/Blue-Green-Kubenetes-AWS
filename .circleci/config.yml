@@ -27,3 +27,8 @@ jobs:
                 command: |
                     hadolint Dockerfile
                     pylint index.html
+
+workflows:
+    default:
+        jobs:
+            - build
