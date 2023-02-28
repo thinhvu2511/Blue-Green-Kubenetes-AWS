@@ -9,7 +9,7 @@ jobs:
                 name: install dependencies
                 command: |
                     sudo apt update && sudo apt install -y tar gzip curl nginx 
-                    wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
+                    sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
                     sudo chmod +x /bin/hadolint
             - run:
                 name: run lint
