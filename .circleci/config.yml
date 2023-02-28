@@ -7,7 +7,6 @@ jobs:
             - checkout
             - restore_cache:
                 keys: [build]
-
             - run:
                 name: install dependencies
                 command: |
@@ -17,7 +16,7 @@ jobs:
                     chmod +x /bin/hadolint
             - save_cache:
                 paths: [~]
-                key: [build]
+                key: build
 
             - run:
                 name: run lint
