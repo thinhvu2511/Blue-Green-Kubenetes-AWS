@@ -40,12 +40,12 @@ jobs:
                     docker push thinhvu2511/helloworld:v1
     test-cluster:
         docker:
-        - image: 'cimg/python:3.10'
+            - image: 'cimg/python:3.10'
         parameters:
-            cluster-name:
+            cluster-name: 
                 description: |
                     helloworld
-                    type: string
+                type: string
         steps:
             - kubernetes/install:
                 kubectl-version: v1.22.0
