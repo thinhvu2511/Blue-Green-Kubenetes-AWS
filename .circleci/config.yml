@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
     build:
         docker:
@@ -33,3 +33,8 @@ jobs:
                 command: |
                     docker login -u $DOCKER_USER -p $DOCKER_PASS
                     docker push thinhvu2511/helloworld:v1
+
+workflows:
+    default:
+        jobs:
+            - build
