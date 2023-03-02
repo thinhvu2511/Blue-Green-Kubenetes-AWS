@@ -66,7 +66,7 @@ jobs:
                 command: |
                     eksctl create cluster \
                     --name hello-cluster \
-                    --version 1.17 \
+                    --version 1.25 \
                     --region us-east-1 \
                     --nodegroup-name linux-nodes \
                     --node-type t2.micro \
