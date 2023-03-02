@@ -1,7 +1,15 @@
-FROM cimg/base:2021.04
+FROM node:10-alpine
 
-RUN sudo apt update && sudo apt install -y tar gzip curl nginx
+# copy the package.json to install dependencies
+COPY package.json package-lock.json ./
 
-COPY ./index.html /usr/share/nginx/html/index.html
+# Install the dependencies and make the folder
+RUN npm install && mkdir /api && mv ./node_modules ./api
 
-EXPOSE 8080
+WORKDIR /api
+
+COPY . .
+
+EXPOSE 3000
+
+ENTRYPOINT ["npm", "start"]
