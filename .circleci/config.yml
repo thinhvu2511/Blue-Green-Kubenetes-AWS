@@ -1,5 +1,19 @@
 version: 2.1
 
+commands:
+    dependencies:
+        steps:
+            - run:
+                name: Installing necessary packages
+                command: |
+                    sudo apt update && sudo apt install -y tar gzip curl
+            - run:
+                name: Installing aws-cli
+                command: |
+                      curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+                      unzip awscliv2.zip
+                      sudo ./aws/install
+
 jobs:
     build:
         docker:
@@ -35,7 +49,30 @@ jobs:
                     docker login -u $DOCKER_USER -p $DOCKER_PASS
                     docker push thinhvu2511/helloworld:v2
 
+    setup-cluster:
+        docker: 
+            - image: cimg/base:2021.04
+        steps:
+            - checkout
+            - dependencies
+            - run:
+                name: install eksctl
+                command: |
+                    curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+                    sudo mv /tmp/eksctl /usr/local/bin
+                    eksctl version
+            - run:
+                name: create cluster
+                command: |
+                    eksctl create cluster \
+                    --name hello-cluster \
+                    --version 1.17 \
+                    --region us-east-1 \
+                    --nodegroup-name linux-nodes \
+                    --node-type t2.micro \
+                    --node 2
 workflows:
     default:
         jobs:
             - build
+            - setup-cluster
