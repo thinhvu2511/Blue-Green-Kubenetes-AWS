@@ -83,9 +83,10 @@ jobs:
                 name: run cluster
                 command: |
                     kubectl get nodes
-                    kubectl run helloworld --image=thinhvu2511/helloworld:v2
+                    kubectl run helloworld --image=thinhvu2511/helloworld:v2 --port=80
                     kubectl get pods
                     kubectl describe pod helloworld
+                    kubectl port-forward helloworld 3000:80 
 workflows:
     default:
         jobs:
