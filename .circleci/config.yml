@@ -82,6 +82,7 @@ jobs:
             - run:
                 name: run cluster
                 command: |
+                    aws eks update-kubeconfig --name hello-cluster
                     kubectl create -f deployment.yaml
                     kubectl get pods
                     kubectl get svc
