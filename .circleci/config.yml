@@ -73,7 +73,7 @@ jobs:
                 name: create cluster
                 command: |
                     eksctl create cluster \
-                    --name helloworld-cluster \
+                    --name thinhvx3-cluster \
                     --version 1.25 \
                     --region us-east-1 \
                     --nodegroup-name linux-nodes \
@@ -82,7 +82,7 @@ jobs:
             - run:
                 name: run cluster
                 command: |
-                    aws eks update-kubeconfig --name helloworld-cluster
+                    aws eks update-kubeconfig --name thinhvx3-cluster
                     kubectl create -f deployment.yaml
                     kubectl get pods
                     kubectl get svc
