@@ -72,21 +72,9 @@ jobs:
             - run:
                 name: create cluster
                 command: |
-                    eksctl create cluster \
-                    --name hello-cluster \
-                    --version 1.25 \
-                    --region us-east-1 \
-                    --nodegroup-name linux-nodes \
-                    --node-type t2.micro \
-                    --nodes 2
-            - run:
-                name: run cluster
-                command: |
-                    kubectl get nodes
-                    kubectl run helloworld --image=thinhvu2511/helloworld:v2 --port=80
+                    kubectl create -f deployment.yaml
                     kubectl get pods
-                    kubectl describe pod helloworld
-                    kubectl port-forward helloworld 3000:80 
+                    kubectl get svc
 workflows:
     default:
         jobs:
