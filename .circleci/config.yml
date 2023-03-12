@@ -80,6 +80,10 @@ jobs:
                     kubectl apply -f deploymentv3.yaml
                     kubectl get pods
                     kubectl get svc
+            - run:
+                name: waiting URL ready
+                    date
+                    sleep 1m
                     export BLUE_URL=$(kubectl get service helloworld-service --output jsonpath='{.status.loadBalancer.ingress[0].hostname}')
                     export GREEN_URL=$(kubectl get service helloworld-service-v3 --output jsonpath='{.status.loadBalancer.ingress[0].hostname}')
                     curl "http://${BLUE_URL}"
