@@ -93,7 +93,7 @@ jobs:
                 command: |
                     kubectl apply -f blue-green-service.yaml
                     kubectl get svc
-                    sleep 1m
+                    sleep 2m
                     curl "http://${BLUE_URL}"
 workflows:
     default:
