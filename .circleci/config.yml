@@ -83,8 +83,7 @@ jobs:
             - run:
                 name: waiting URL ready
                 command: |
-                    date
-                    sleep 1m
+                    sleep 2m
                     export BLUE_URL=$(kubectl get service helloworld-service --output jsonpath='{.status.loadBalancer.ingress[0].hostname}')
                     export GREEN_URL=$(kubectl get service helloworld-service-v3 --output jsonpath='{.status.loadBalancer.ingress[0].hostname}')
                     curl "http://${BLUE_URL}"
@@ -94,6 +93,7 @@ jobs:
                 command: |
                     kubectl apply -f blue-green-service.yaml
                     kubectl get svc
+                    sleep 1m
                     curl "http://${BLUE_URL}"
 workflows:
     default:
