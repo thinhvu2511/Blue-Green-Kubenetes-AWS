@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
- name: helloworld-deployment
+ name: helloworld-deployment-v3
  labels:
    app: helloworld
 spec:
@@ -9,27 +9,27 @@ spec:
   selector:
     matchLabels:
       app: helloworld
-      version: "2.0"
+      version: "3.0"
   template:
     metadata:
       labels:
         app: helloworld
-        version: "2.0"
+        version: "3.0"
     spec:
      containers:
       - name: helloworld
-        image: docker.io/thinhvu2511/helloworld:v2
+        image: docker.io/thinhvu2511/helloworld:v3
         ports:
         - containerPort: 3000
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: helloworld-service
+  name: helloworld-service-v3
 spec:
   selector:
     app: helloworld
-    version: "2.0"
+    version: "3.0"
   ports:
   - name: http
     protocol: TCP
