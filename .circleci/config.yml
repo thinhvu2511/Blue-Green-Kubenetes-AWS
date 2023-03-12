@@ -79,9 +79,11 @@ jobs:
                     kubectl apply -f deployment.yaml
                     kubectl apply -f deploymentv3.yaml
                     kubectl get pods
-                    kubectl get svc >> text.txt
-                    export BLUE_URL=$(cat text.txt | sed -n '2p' | cut -f 13 -d " ")
-                    export GREEN_URL=$(cat text.txt | sed -n '3p' | cut -f 11 -d " ")
+                    kubectl get svc
+                    export BLUE_URL=$(kubectl get service helloworld-service --output jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+                    export GREEN_URL=$(kubectl get service helloworld-service-v3 --output jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+                    curl "http://${BLUE_URL}"
+                    curl "http://${GREEN_URL}"
             - run:
                 name: Blue green service
                 command: |
