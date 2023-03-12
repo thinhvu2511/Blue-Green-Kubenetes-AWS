@@ -82,6 +82,7 @@ jobs:
                     kubectl get svc
             - run:
                 name: waiting URL ready
+                command: |
                     date
                     sleep 1m
                     export BLUE_URL=$(kubectl get service helloworld-service --output jsonpath='{.status.loadBalancer.ingress[0].hostname}')
